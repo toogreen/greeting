@@ -1,0 +1,283 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Chathura:wght@700&display=swap');
+
+
+body{
+  font-family: 'Chathura', sans-serif;
+  font-size: 20px;
+  margin: 0;
+  background-color: whitesmoke;
+  margin: 0;
+}
+
+header{
+  display: flex;
+  height: 100px;
+  align-items: center;
+  background: #6441A5; /* Fallback for older browsers */
+  background: -webkit-linear-gradient(to right, #2a0845, #6441A5);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #2a0845, #6441A5); /* W3C, IE 10+/ Edge, Fdirefox 16+ */
+  margin: 0 auto;
+  text-align: center;
+} 
+
+header img {
+  height: 80%;
+  margin-left: 10%;
+}
+
+header p {
+  font-family: 'Permanent Marker', cursive;
+  line-height: 30px;
+  color: whitesmoke;
+  font-size: 40px;
+  margin-left: 50px;
+  margin-right: 60px;
+}
+
+main{
+  text-align: center;
+  margin: 0 auto;
+  background-color: white;
+  padding: 20px;
+  max-width: 700px;
+  /* width: 80%; 
+  box-shadow: 3px 4px 4px #888888; */
+} 
+
+.meme{
+  position: relative;
+  width: 90%;
+  margin: auto;
+}
+
+.meme > img {
+  width: 100%;
+}
+
+.meme > h2 {
+  position: absolute;
+  width: 80%;
+  text-align: center;
+    left: 50%;
+    transform: translate(-50%);
+    margin: 15px 0;
+    padding: 0 5px;
+    font-family: impact, Sans-serif;
+    font-size: 1.5em;
+    text-transform: uppercase;
+    color: white;
+    letter-spacing: 1px;
+    text-shadow: 
+      2px 2px 0 #000,
+      -2px -2px 0 #000,
+      2px -2px 0 #000,
+      -2px 2px 0 #000,
+      0 2px 0 #000,
+      2px 0 0 #000,
+      0 -2px 0 #000,
+      2px 2px 5px #000;
+}
+
+.top{
+  position: absolute;
+  top: 0px;
+
+}
+
+.bottom{
+  position: absolute;
+  bottom: 0px;
+}
+
+.meme-form {
+  width: 90%;
+  text-align: center;
+  margin: 0 auto;
+}
+
+button {
+  border: none;
+  font-family: 'Chathura', sans-serif;
+  font-size: 25px;
+  letter-spacing: 1.5px;
+  color: white;
+  background: #6441A5;
+}
+
+.meme-form > button {
+  float: right;
+}
+
+.meme-form > input {
+  float: left;
+}
+
+.meme-form > input::-webkit-input-placeholder { /* Chrome/Opera/Safari */ 
+  font-family: 'Chathura', sans-serif;
+  font-size: 25px;
+  text-align: cen
+}
+
+.meme-form > input::-moz-placeholder { /* Firefox 19+ */ 
+  font-family: 'Chathura', sans-serif;
+  font-size: 25px;
+  text-align: cen
+}
+
+.meme-form > input::-ms-input-placeholder { /* IE 10+ */ 
+  font-family: 'Chathura', sans-serif;
+  font-size: 25px;
+  text-align: cen
+}
+
+.meme-form > input::-input-moz-placeholder { /* Firefox 18- */ 
+  font-family: 'Chathura', sans-serif;
+  font-size: 25px;
+  text-align: cen
+}
+
+footer{
+  /* position: fixed; */
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  text-align: center;
+  background-color: #000000;
+  color: #FFFFFF;
+  margin-bottom: 0px;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  height: 100px;
+  z-index: -100;
+}
+
+footer a, footer a:hover{
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.ad-containter, .ad{
+  text-align: center;
+  margin: 0 auto;
+  width:320px;
+  height:50px; 
+  border:0px; 
+  padding:0; 
+  overflow:hidden;
+  z-index: -100;
+}
+
+.hidden{
+  /* position: absolute;
+  top: 5%;
+  left: 2%; 
+  background-color: white;
+  box-shadow: 10px 14px 14px #888888;
+  padding: 20px; */
+  display: none;
+  height: auto;
+}
+
+.imgContainer{
+  box-shadow: 5px 5px 5px #888888;
+  border: 1px solid black;
+  height: auto;
+}
+
+.imgZone{
+  height: auto;
+}
+.imgZone img {
+  position: relative;
+  left: -3%;
+}
+
+.thumbnail{
+  position: relative;
+  max-width: 20%;
+  max-height: 100px;
+  float: left;
+}
+
+.iframe{
+  position: relative;
+  scroll-behavior: scroll;
+  height: 100px;
+  width: 100%;
+}
+
+.close{
+  display: none;
+  position: relative;
+  float: right;
+  top: 0px;
+  right: 0px;
+  cursor: pointer;
+  font-size: 60px;
+  font-weight: bold;
+}
+
+.socialzone{
+  width: 150px;
+  text-align: center;
+}
+
+.shareButton{
+  width: 50px;
+  text-align: center;
+  float: left;
+}
+
+
+@media (min-width: 900px) {
+  .meme > h2 {
+      font-size: 2em;
+  }
+
+  header img {
+    margin-left: 30%;
+  }
+
+}
+
+
+
+/* Stuff for select box start */
+select {
+  margin: 20px;
+  width: 50%;
+  padding: 5px 35px 5px 5px;
+  font-size: 16px;
+  border: 1px solid #CCC;
+  height: 34px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: 1px solid black;
+  box-shadow: 2px 2px 2px #888888;
+  border-radius: 5px;
+  background: rgb(240,240,240);
+}
+
+
+/* CAUTION: Internet Explorer hackery ahead */
+
+
+select::-ms-expand {
+    display: none; /* Remove default arrow in Internet Explorer 10 and 11 */
+}
+
+/* Target Internet Explorer 9 to undo the custom arrow */
+@media screen and (min-width:0\0) {
+    select {
+        background: none\9;
+        padding: 5px\9;
+    }
+}
+
+/* Stuff for select box ends */
+
+
