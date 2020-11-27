@@ -13,7 +13,7 @@ class Generator extends Component {
 		this.state = {
 			topText: "",
 			bottomTet: "",
-			randomImg: "https://toogreen.ca/greeting/img/card1.png",
+			randomImg: "https://toogreen.ca/greeting/img/card1.jpg",
 			allMemeImgs: [],
 			count: 0,
 			favImage: "",
