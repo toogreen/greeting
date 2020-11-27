@@ -3,11 +3,11 @@ import React from "react"
 function Header() {
 	return (
 		<header className="navbar">
-			<img 
+			{/* <img 
 				src="/meme/img/Trollface.png" 
 				alt="Problem?" 
-			/>
-	 		<p>Meme Generator</p>
+			/> */}
+	 		<p>Card Generator</p>
 		</header>
 	)
 }

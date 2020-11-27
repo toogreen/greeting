@@ -4,19 +4,21 @@ import $ from "jquery"
 import domtoimage from "dom-to-image"
 import MemeList from "./MemeList"
 import {isSafari, isMobile, isIPad13, isIPhone13} from "react-device-detect"
+import TextArea from "react-expanding-textarea"
 
-class MemeGenerator extends Component {
+class Generator extends Component {
 
 	constructor() {
 		super()
 		this.state = {
 			topText: "",
 			bottomTet: "",
-			randomImg: "http://i.imgflip.com/1bij.jpg",
+			randomImg: "https://toogreen.ca/greeting/img/card1.png",
 			allMemeImgs: [],
 			count: 0,
 			favImage: "",
-			foo: ""
+			foo: "",
+			lang: false
 		}
 		this.handleChange = this.handleChange.bind(this)
 		this.handleSubmit = this.handleSubmit.bind(this)
@@ -98,20 +100,27 @@ class MemeGenerator extends Component {
 		$('.hidden').hide();
 	}
 
+	toggleLang() {
+        this.setState(prevState => ({ lang: !prevState.lang }));
+    }
+
 
 	render() {
 
 		return(
 			<main>
+
+<button className="langButton" onClick={() => {this.toggleLang(); }} >{this.state.lang ? "EN" : "FR"}</button>
+
 				<form className="meme-form" onSubmit={this.handleSubmit}>
 
-				<button>Random image</button>
+				{/* <button>Random image</button> */}
 
 				<input 
-					type="text"
+					type="textarea"
 					name="topText"
 					value={this.state.topText}
-					placeholder="Top Text" 
+					placeholder={this.state.lang ? "Texte principal" : "Main Text"} 
 					onChange={this.handleChange} 
 				/>
 
@@ -121,7 +130,7 @@ class MemeGenerator extends Component {
 					type="text"
 					name="bottomText"
 					value={this.state.bottomText}
-					placeholder="Bottom Text" 
+					placeholder={this.state.lang ? "Signature (De:)" : "Signature (From:)"} 
 					onChange={this.handleChange} 
 				/>
 
@@ -129,7 +138,7 @@ class MemeGenerator extends Component {
 					
 				</form>
 
-				<select 
+				{/* <select 
 					name="favImage"
 					onChange={this.handleChange} 
 				>
@@ -137,15 +146,16 @@ class MemeGenerator extends Component {
 					<MemeList 
 						data={this.state}
 					/>
-				</select>
+				</select> */}
 
 				<div id="meme" className="meme"> 
-					<img src={this.state.randomImg} alt="" onClick={this.handleSubmit} />
+					<img src={this.state.randomImg} alt="" />
+					<h2 className="title">{this.state.lang ? "Joyeuses Fêtes" : "Happy Holidays"}</h2>
 					<h2 className="top">{this.state.topText}</h2>
 					<h2 className="bottom">{this.state.bottomText}</h2>
 				</div>
 
-				<button id="buttonCopy" onClick={this.handleCopy}>Generate an Image to copy it elsewhere</button>
+				<button id="buttonCopy" onClick={this.handleCopy}>{this.state.lang ? "Generer une carte que vous pourrez copier-coller" : "Generate an Image to copy it elsewhere"}</button>
 
 
 				<div className="hidden">
@@ -174,4 +184,4 @@ class MemeGenerator extends Component {
 
 }
 
-export default MemeGenerator
+export default Generator

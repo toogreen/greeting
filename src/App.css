@@ -15,9 +15,7 @@ header{
   display: flex;
   height: 100px;
   align-items: center;
-  background: #6441A5; /* Fallback for older browsers */
-  background: -webkit-linear-gradient(to right, #2a0845, #6441A5);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #2a0845, #6441A5); /* W3C, IE 10+/ Edge, Fdirefox 16+ */
+  background: green; /* Fallback for older browsers */
   margin: 0 auto;
   text-align: center;
 } 
@@ -32,8 +30,9 @@ header p {
   line-height: 30px;
   color: whitesmoke;
   font-size: 40px;
-  margin-left: 50px;
-  margin-right: 60px;
+  text-align: center;
+  align-items: center;
+  flex: 1;
 }
 
 main{
@@ -45,6 +44,20 @@ main{
   /* width: 80%; 
   box-shadow: 3px 4px 4px #888888; */
 } 
+
+.langButton {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  margin: 0px;
+  padding: 0px;
+  border-radius: 0px;
+  border: none;
+  cursor:pointer;
+  width: 35px;
+  height: 35px;
+  font-size: 1em;
+}
 
 .meme{
   position: relative;
@@ -58,6 +71,17 @@ main{
 
 .meme > h2 {
   position: absolute;
+  width: 80%;
+  text-align: center;
+    left: 50%;
+    transform: translate(-50%);
+    margin: 15px 0;
+    padding: 0 5px;
+}
+
+.title{
+  position: absolute;
+  top: 5%;
   width: 80%;
   text-align: center;
     left: 50%;
@@ -80,15 +104,19 @@ main{
       2px 2px 5px #000;
 }
 
+.top, .bottom{
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 14px;
+}
+
 .top{
   position: absolute;
-  top: 0px;
-
+  top: 20%;
 }
 
 .bottom{
   position: absolute;
-  bottom: 0px;
+  bottom: 10%;
 }
 
 .meme-form {
@@ -103,7 +131,7 @@ button {
   font-size: 25px;
   letter-spacing: 1.5px;
   color: white;
-  background: #6441A5;
+  background: green;
 }
 
 .meme-form > button {
