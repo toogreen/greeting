@@ -118,7 +118,9 @@ class Generator extends Component {
 
 				{/* <button>Random image</button> */}
 
-				<input 
+				<TextArea 
+					className="maintextarea"
+					rows="5"
 					type="textarea"
 					name="topText"
 					value={this.state.topText}
@@ -152,7 +154,7 @@ class Generator extends Component {
 
 				<div id="meme" className="meme"> 
 					<img src={this.state.randomImg} alt="" />
-					<h2 className="title">{this.state.lang ? "Joyeuses Fêtes" : "Happy Holidays"}</h2>
+					<span className="title">{this.state.lang ? "Joyeuses Fêtes" : "Happy Holidays"}</span>
 					<h2 className="top">{this.state.topText}</h2>
 					<h2 className="bottom">{this.state.bottomText}</h2>
 				</div>

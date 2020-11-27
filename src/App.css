@@ -80,6 +80,7 @@ main{
 }
 
 .title{
+  font-size: 3em;
   position: absolute;
   top: 1%;
   width: 80%;
@@ -107,23 +108,31 @@ main{
 .top, .bottom{
   width: 60%;
   font-family: 'Times New Roman', Times, serif;
-  font-size: 14px;
+  color: white;
+  text-shadow: 
+    2px 2px 5px #000;
 }
 
 .top{
   position: absolute;
   top: 20%;
+  font-size: 14px;
 }
 
 .bottom{
   position: absolute;
   bottom: 10%;
+  font-size: 10px;
 }
 
 .meme-form {
   width: 90%;
   text-align: center;
   margin: 0 auto;
+}
+
+.maintextarea{
+  width: 100%;
 }
 
 button {
@@ -262,8 +271,16 @@ footer a, footer a:hover{
 
 
 @media (min-width: 900px) {
-  .meme > h2 {
-      font-size: 2em;
+
+  .meme > .title {
+    font-size: 2em;
+  }
+
+  .meme > .top {
+      font-size: 1.6em;
+  }
+  .meme > .bottom {
+    font-size: 1.2em;
   }
 
   header img {
