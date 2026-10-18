@@ -2,7 +2,7 @@
   "name": "generator",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://toogreen.ca/greeting",
+  "homepage": ".",
   "dependencies": {
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^9.5.0",
