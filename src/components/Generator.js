@@ -126,7 +126,9 @@ class Generator extends Component {
 	}
 
 	toggleLang() {
-		this.setState(prevState => ({lang: !prevState.lang, notice: "", generationError: ""}))
+		const lang = !this.state.lang
+		this.setState({lang, notice: "", generationError: ""})
+		if (this.props.onLangChange) this.props.onLangChange(lang)
 	}
 
 	render() {
