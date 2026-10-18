@@ -1,9 +1,7 @@
 import React, {Component} from "react"
 import Ad from "./Ad"
-import $ from "jquery"
 import domtoimage from "dom-to-image"
-import MemeList from "./MemeList"
-import {isSafari, isMobile, isIPad13, isIPhone13} from "react-device-detect"
+import {isSafari, isIPad13, isIPhone13} from "react-device-detect"
 import TextArea from "react-expanding-textarea"
 
 class Generator extends Component {
@@ -12,94 +10,86 @@ class Generator extends Component {
 		super()
 		this.state = {
 			topText: "",
-			bottomTet: "",
-			//randomImg: "https://toogreen.ca/greeting/img/card1.jpg",
-			//randomImg: "https://juju-d903432991d89cc85964a44935c6699d.s3.amazonaws.com/card1.jpg",
-			randomImg: "https://p0.pxfuel.com/preview/443/99/669/christmas-snow-winter-christmas-time.jpg",
+			bottomText: "",
+			randomImg: `${process.env.PUBLIC_URL}/img/card1.jpg`,
 			allMemeImgs: [],
-			count: 0,
-			favImage: "",
-			foo: "",
-			lang: false
+			generatedImages: [],
+			generationError: "",
+			isGenerating: false,
+			showGeneratedImages: false,
+			lang: false,
 		}
 		this.handleChange = this.handleChange.bind(this)
 		this.handleSubmit = this.handleSubmit.bind(this)
-		this.handleCopy = this.handleCopy.bind(this)
+		this.handleGenerate = this.handleGenerate.bind(this)
 	}
 
 	componentDidMount() {
-		this.setState({loading: true})
 		fetch("https://api.imgflip.com/get_memes")
-			.then(response => response.json())
 			.then(response => {
-				const {memes} = response.data
-
+				if (!response.ok) {
+					throw new Error(`Meme API responded with ${response.status}`)
+				}
+				return response.json()
+			})
+			.then(response => {
+				const memes = response.data && response.data.memes
+				if (!Array.isArray(memes)) {
+					throw new Error("Meme API response did not contain a meme list")
+				}
 				this.setState({ allMemeImgs: memes })
-				console.log(memes[0])
+			})
+			.catch(error => {
+				console.error("Unable to load meme images.", error)
 			})
 	}
 
 	handleChange(event){
 		const {name, value} = event.target
-		name === "favImage" ? this.setState({ randomImg: event.target.value }) : this.setState({[name]: value})
-
+		this.setState({[name]: value})
 	}
 
 	handleSubmit(event){
-
 		event.preventDefault()
 
-		//get a a random number
+		if (this.state.allMemeImgs.length === 0) {
+			return
+		}
 		const randNum = Math.floor(Math.random() * this.state.allMemeImgs.length)
-
-		// get the meme from that index
-		const randMemeImg = this.state.allMemeImgs[randNum].url
-
-		// set "randomImg" to the ".url"  of the random item I grabbed
-		this.setState({ randomImg: randMemeImg})
-
+		this.setState({
+			randomImg: this.state.allMemeImgs[randNum].url,
+			generationError: "",
+		})
 	}
 
-	handleCopy(event){
-
+	async handleGenerate(event){
 		event.preventDefault()
+		const meme = document.getElementById("meme")
 
-		// Copy the content of the "meme" DIV and make it an image
-		const render = node =>
-		  domtoimage.toPng(node)
-		  .then(dataUrl => {
-		    console.log(performance.now() - pf)
-		    const img = new Image();
-		    img.src = dataUrl;
-
-		    $('.imgZone').append(this.state.count > 0 && "<hr />").append("<h2>Image # " + this.state.count+ "</h2>")
-		    $('.imgZone').append(img)
-		    $('.hidden').show();
-
-		  })
-		  .catch(error =>
-		    console.error('oops, something went wrong!', error)
-		  ),
-
-		foo = document.getElementById('meme');
-
-		var pf = performance.now();
-		render(foo);
-
-		// Increment the value of count
-		this.setState(prevState => {
-			return {
-				count: prevState.count + 1
-			}
-		})
-
-		// scroll down to new image
-		window.scrollTo(0,document.body.scrollHeight);
- 
+		if (!meme || this.state.isGenerating) {
+			return
+		}
+		this.setState({isGenerating: true, generationError: ""})
+		try {
+			const image = await domtoimage.toPng(meme)
+			this.setState(prevState => ({
+				generatedImages: [...prevState.generatedImages, image],
+				isGenerating: false,
+				showGeneratedImages: true,
+			}), () => window.scrollTo(0, document.body.scrollHeight))
+		} catch (error) {
+			console.error("Unable to generate the card image.", error)
+			this.setState({
+				isGenerating: false,
+				generationError: this.state.lang
+					? "Impossible de générer l’image. Essayez de nouveau."
+					: "The image could not be generated. Please try again.",
+			})
+		}
 	}
 
 	closeModal() {
-		$('.hidden').hide();
+		this.setState({showGeneratedImages: false})
 	}
 
 	toggleLang() {
@@ -108,6 +98,7 @@ class Generator extends Component {
 
 
 	render() {
+		const count = this.state.generatedImages.length
 
 		return(
 			<main>
@@ -153,35 +144,53 @@ class Generator extends Component {
 				</select> */}
 
 				<div id="meme" className="meme"> 
-					<img src={this.state.randomImg} alt="" />
+					<img src={this.state.randomImg} alt="Holiday card background" />
 					<span className="title">{this.state.lang ? "Joyeuses Fêtes" : "Happy Holidays"}</span>
 					<h2 className="top">{this.state.topText}</h2>
 					<h2 className="bottom">{this.state.bottomText}</h2>
 				</div>
 
-				<button id="buttonCopy" onClick={this.handleCopy}>{this.state.lang ? "Generer une carte que vous pourrez copier-coller" : "Generate an Image to copy it elsewhere"}</button>
+				{this.state.generationError && <p role="alert">{this.state.generationError}</p>}
+				<button
+					id="buttonCopy"
+					type="button"
+					onClick={this.handleGenerate}
+					disabled={this.state.isGenerating}
+				>
+					{this.state.isGenerating
+						? (this.state.lang ? "Génération..." : "Generating...")
+						: (this.state.lang ? "Generer une carte que vous pourrez copier-coller" : "Generate an Image to copy it elsewhere")}
+				</button>
 
 
-				<div className="hidden">
+				<div className={this.state.showGeneratedImages ? "hidden visible" : "hidden"}>
 					
 					{/* Added this for warning users on iPad or iPhone or Safari that the image may not copy on first try - this is a bug i'm trying to figure out. */}
 					{this.state.lang ? (
-							<p>{(this.state.count > 0 && (isSafari || isIPad13 || isIPhone13)) && "Erreur? Cliquez de nouveau sur le bouton (c'est un bogue d'Apple)"}</p>
+							<p>{(count > 0 && (isSafari || isIPad13 || isIPhone13)) && "Erreur? Cliquez de nouveau sur le bouton (c'est un bogue d'Apple)"}</p>
 						) : (
-							<p>{(this.state.count > 0 && (isSafari || isIPad13 || isIPhone13)) && "If it didn't work on the last click, try clicking the above button one more time (Apple Bug)"}</p>
+							<p>{(count > 0 && (isSafari || isIPad13 || isIPhone13)) && "If it didn't work on the last click, try clicking the above button one more time (Apple Bug)"}</p>
 						)
 					}
 
 					<br />
 					<div className="imgContainer">
-						<div className="close" onClick={this.closeModal}>X</div>
+						<button className="close" type="button" onClick={() => this.closeModal()}>X</button>
 						{this.state.lang ? (
-								<h1>Copiez et collez {this.state.count > 1 ? "les " : "l'"}image{this.state.count > 1 && "s"} ci-bas</h1>
+								<h1>Copiez et collez {count > 1 ? "les " : "l'"}image{count > 1 && "s"} ci-bas</h1>
 							) : (
-								<h1>Copy and paste the image{this.state.count > 1 && "s"} from below</h1>
+								<h1>Copy and paste the image{count > 1 && "s"} from below</h1>
 							)
 						}
-						<span className="imgZone"></span>
+						<div className="imgZone">
+							{this.state.generatedImages.map((image, index) => (
+								<React.Fragment key={index}>
+									{index > 0 && <hr />}
+									<h2>Image # {index + 1}</h2>
+									<img src={image} alt={`Generated holiday card ${index + 1}`} />
+								</React.Fragment>
+							))}
+						</div>
 					</div>
 				</div>
 

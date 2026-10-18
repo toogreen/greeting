@@ -219,6 +219,10 @@ footer a, footer a:hover{
   height: auto;
 }
 
+.hidden.visible {
+  display: block;
+}
+
 .imgContainer{
   box-shadow: 5px 5px 5px #888888;
   border: 1px solid black;
@@ -230,7 +234,9 @@ footer a, footer a:hover{
 }
 .imgZone img {
   position: relative;
-  left: -3%;
+  left: 0;
+  max-width: 100%;
+  height: auto;
 }
 
 .thumbnail{
@@ -248,7 +254,7 @@ footer a, footer a:hover{
 }
 
 .close{
-  display: none;
+  display: block;
   position: relative;
   float: right;
   top: 0px;
@@ -256,6 +262,8 @@ footer a, footer a:hover{
   cursor: pointer;
   font-size: 60px;
   font-weight: bold;
+  background: transparent;
+  color: black;
 }
 
 .socialzone{
@@ -325,5 +333,4 @@ select::-ms-expand {
 }
 
 /* Stuff for select box ends */
-
 
