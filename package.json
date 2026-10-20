@@ -9,9 +9,9 @@
     "@testing-library/user-event": "^7.2.1",
     "dom-to-image": "^2.6.0",
     "jquery": "^3.5.1",
-    "react": "^16.13.1",
+    "react": "^16.14.0",
     "react-device-detect": "^1.13.1",
-    "react-dom": "^16.13.1",
+    "react-dom": "^16.14.0",
     "react-expanding-textarea": "^2.2.3",
     "react-scripts": "^5.0.1"
   },
