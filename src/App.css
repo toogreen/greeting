@@ -685,6 +685,75 @@ footer a:hover {
   text-decoration: underline;
 }
 
+.footer-links {
+  display: block;
+  margin-top: 6px;
+}
+
+.link-button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #536f58;
+  font-weight: 700;
+}
+
+.link-button:hover {
+  text-decoration: underline;
+}
+
+.consent {
+  position: fixed;
+  z-index: 30;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  width: min(720px, calc(100% - 24px));
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 14px 16px;
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--green);
+  border-radius: 12px;
+  box-shadow: 0 8px 28px rgba(32, 43, 40, 0.18);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.consent p {
+  flex: 1;
+  margin: 0;
+}
+
+.consent a {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.consent-actions {
+  display: flex;
+  flex-shrink: 0;
+  gap: 8px;
+}
+
+.consent-button {
+  min-width: 84px;
+  padding: 8px 14px;
+  border: 1px solid var(--green);
+  border-radius: 99px;
+  background: var(--green);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.consent-button:hover {
+  background: var(--green-dark);
+}
+
 @media (max-width: 760px) {
   .site-header,
   .studio {
@@ -746,6 +815,15 @@ footer a:hover {
 
   .card-stage {
     padding: 12px;
+  }
+
+  .consent {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .consent-button {
+    flex: 1;
   }
 }
 

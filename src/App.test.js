@@ -162,3 +162,62 @@ test('copy & email still opens the mail tab when image copying is unsupported', 
   expect(container.querySelector('[role="alert"]')).toHaveTextContent('attach it to your email');
   expect(consoleError).toHaveBeenCalled();
 });
+
+describe('cookie consent', () => {
+  beforeEach(() => {
+    localStorage.clear();
+    window.loadAnalytics = jest.fn();
+    window.loadAds = jest.fn();
+    window.revokeAnalytics = jest.fn();
+    window.revokeAds = jest.fn();
+  });
+
+  afterEach(() => {
+    delete window.loadAnalytics;
+    delete window.loadAds;
+    delete window.revokeAnalytics;
+    delete window.revokeAds;
+  });
+
+  test('asks first, and accepting turns on analytics and ads', () => {
+    const { container, getByText } = render(<App />);
+
+    expect(container.querySelector('.consent')).toBeInTheDocument();
+    fireEvent.click(getByText('Accept'));
+
+    expect(localStorage.getItem('cardly-consent')).toBe('granted');
+    expect(window.loadAnalytics).toHaveBeenCalled();
+    expect(window.loadAds).toHaveBeenCalled();
+    expect(container.querySelector('.consent')).toBeNull();
+  });
+
+  test('declining keeps analytics and ads off', () => {
+    const { container, getByText } = render(<App />);
+
+    fireEvent.click(getByText('Decline'));
+
+    expect(localStorage.getItem('cardly-consent')).toBe('denied');
+    expect(window.loadAnalytics).not.toHaveBeenCalled();
+    expect(window.loadAds).not.toHaveBeenCalled();
+    expect(window.revokeAds).toHaveBeenCalled();
+    expect(container.querySelector('.consent')).toBeNull();
+  });
+
+  test('remembers the choice and reopens from the footer', () => {
+    localStorage.setItem('cardly-consent', 'denied');
+    const { container, getByText } = render(<App />);
+
+    expect(container.querySelector('.consent')).toBeNull();
+    fireEvent.click(getByText('Cookies'));
+    expect(container.querySelector('.consent')).toBeInTheDocument();
+  });
+
+  test('links to the privacy policy and terms in the current language', () => {
+    const { container, getByText } = render(<App />);
+
+    expect(container.querySelector('footer a[href="./privacy.html?lang=en"]')).toBeInTheDocument();
+    expect(container.querySelector('footer a[href="./terms.html?lang=en"]')).toBeInTheDocument();
+    fireEvent.click(getByText('FR'));
+    expect(container.querySelector('footer a[href="./privacy.html?lang=fr"]')).toHaveTextContent('Confidentialité');
+  });
+});

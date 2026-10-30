@@ -9,8 +9,8 @@ const designs = [
 ]
 
 class Generator extends Component {
-	constructor() {
-		super()
+	constructor(props) {
+		super(props)
 		this.state = {
 			topText: "",
 			bottomText: "",
@@ -18,7 +18,7 @@ class Generator extends Component {
 			generationError: "",
 			notice: "",
 			activeAction: null,
-			lang: false,
+			lang: Boolean(props.initialLang),
 		}
 		this.handleChange = this.handleChange.bind(this)
 	}

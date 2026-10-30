@@ -30,19 +30,64 @@
     <title>Cardly</title>
 
 
-<!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6STJXM2H9Q"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+    <!-- Google tag (gtag.js): loaded only after the visitor opts in (PIPEDA, Quebec Law 25). -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      var analyticsId = 'G-6STJXM2H9Q';
+      var analyticsLoaded = false;
 
-    gtag('config', 'G-6STJXM2H9Q');
-  </script>
+      function loadAnalytics() {
+        window['ga-disable-' + analyticsId] = false;
+        if (analyticsLoaded) return;
+        analyticsLoaded = true;
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=' + analyticsId;
+        document.head.appendChild(script);
+        gtag('js', new Date());
+        gtag('config', analyticsId);
+      }
 
-  <!-- AdSense -->
-  <script data-ad-client="ca-pub-7401520800104068" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      // Google sets its cookies on the highest domain it can, so clear them at every level of the host name.
+      function clearCookies(matches) {
+        var parts = location.hostname.split('.');
+        var domains = [''].concat(parts.map(function (part, index) { return '; domain=.' + parts.slice(index).join('.'); }));
+        document.cookie.split(';').map(function (cookie) { return cookie.split('=')[0].trim(); }).filter(matches).forEach(function (name) {
+          domains.forEach(function (domain) { document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/' + domain; });
+        });
+      }
 
+      function revokeAnalytics() {
+        window['ga-disable-' + analyticsId] = true;
+        clearCookies(function (name) { return name.indexOf('_ga') === 0; });
+      }
+
+      // Google AdSense (Auto ads): also loaded only after the visitor opts in.
+      var adsClient = 'ca-pub-5829964164858117';
+      var adsLoaded = false;
+
+      function loadAds() {
+        if (adsLoaded) return;
+        adsLoaded = true;
+        var script = document.createElement('script');
+        script.async = true;
+        script.crossOrigin = 'anonymous';
+        script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + adsClient;
+        document.head.appendChild(script);
+      }
+
+      function revokeAds() {
+        clearCookies(function (name) { return ['__gads', '__gpi', '__eoi'].indexOf(name) !== -1; });
+        // A loaded ad script can't be unloaded, so start over with a clean page.
+        if (adsLoaded) location.reload();
+      }
+
+      try {
+        if (localStorage.getItem('cardly-consent') === 'granted') { loadAnalytics(); loadAds(); }
+      } catch (error) {}
+    </script>
+    <meta name="google-adsense-account" content="ca-pub-5829964164858117" />
 
   </head>
   <body>
